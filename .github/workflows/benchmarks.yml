@@ -18,10 +18,10 @@ jobs:
       fail-fast: false
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
@@ -34,7 +34,7 @@ jobs:
 
     - name: 'Upload ${{ matrix.os }} artifacts'
       continue-on-error: true
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: artifacts-${{ matrix.os }}-${{ github.run_number }}
         path: ./src/AoC_${{ env.YEAR }}.Benchmarks/BenchmarkDotNet.Artifacts/results/
@@ -49,10 +49,10 @@ jobs:
       fail-fast: false
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
@@ -65,7 +65,7 @@ jobs:
 
     - name: 'Upload ${{ matrix.os }} artifacts'
       continue-on-error: true
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: artifacts-${{ matrix.os }}-${{ github.run_number }}-individually
         path: ./src/AoC_${{ env.YEAR }}.Benchmarks/BenchmarkDotNet.Artifacts/results/
@@ -80,10 +80,10 @@ jobs:
       fail-fast: false
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
@@ -96,7 +96,7 @@ jobs:
 
     - name: 'Upload ${{ matrix.os }} artifacts'
       continue-on-error: true
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: artifacts-${{ matrix.os }}-${{ github.run_number }}-detailed
         path: ./src/AoC_${{ env.YEAR }}.Benchmarks/BenchmarkDotNet.Artifacts/results/
