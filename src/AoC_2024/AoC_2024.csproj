@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AoCHelper" Version="4.0.0" />
+    <PackageReference Include="FileParser" Version="3.0.0" />
+    <PackageReference Include="morelinq" Version="4.3.0" />
+    <PackageReference Include="SheepTools" Version="0.13.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Inputs\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Inputs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>$(AssemblyName).Test</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>$(AssemblyName).Benchmarks</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+</Project>
