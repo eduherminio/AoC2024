@@ -12,12 +12,10 @@ public class Day_01 : BaseDay
     public override ValueTask<string> Solve_1()
     {
         var result = 0;
-        var sortedL1 = _input.L1.Order().ToList();
-        var sortedL2 = _input.L2.Order().ToList();
 
-        for(int i = 0; i < sortedL1.Count; ++i)
+        for (int i = 0; i < _input.L1.Count; ++i)
         {
-            result += Math.Abs(sortedL1[i] - sortedL2[i]);
+            result += Math.Abs(_input.L1[i] - _input.L2[i]);
         }
 
         return new(result.ToString());
@@ -26,10 +24,41 @@ public class Day_01 : BaseDay
     public override ValueTask<string> Solve_2()
     {
         var result = 0;
+        var l2Index = 0;
 
         for (int i = 0; i < _input.L1.Count; ++i)
         {
-            result += _input.L1[i] *  _input.L2.Count(_input.L1[i].Equals);
+            var n = _input.L1[i];
+            var l1Counter = 1;
+            var l2Counter = 0;
+
+            for (int j = i + 1; j < _input.L1.Count; ++j)
+            {
+                if (n == _input.L1[j])
+                {
+                    ++l1Counter;
+                }
+                else
+                {
+                    i = j - 1;  // -1 due to the auto-loop increment
+                    break;
+                }
+            }
+
+            for (int k = l2Index; k < _input.L2.Count; ++k)
+            {
+                if (n == _input.L2[k])
+                {
+                    ++l2Counter;
+                }
+                else if (n < _input.L2[k])  // We don't stop the loop until the L2 element is bigger then the L1 one we're looking for
+                {
+                    l2Index = k;
+                    break;
+                }
+            }
+
+            result += n * l1Counter * l2Counter;
         }
 
         return new(result.ToString());
@@ -49,6 +78,6 @@ public class Day_01 : BaseDay
             l2.Add(line.NextElement<int>());
         }
 
-        return (l1, l2);
+        return (l1.Order().ToList(), l2.Order().ToList());
     }
 }
