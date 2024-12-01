@@ -12,12 +12,12 @@ public class All_Days_Detailed_Benchmark : BaseDayBenchmark
     public static List<Type>? AllDayTypes => Assembly.GetAssembly(typeof(Day_01))
             ?.GetTypes()
             ?.Where(type => typeof(BaseProblem).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
-            ?.ToList();
+            .ToList();
 
     public static List<BaseDay?>? AllDays => Assembly.GetAssembly(typeof(Day_01))
             ?.GetTypes()
             ?.Where(type => typeof(BaseDay).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
-            ?.Select(type => Activator.CreateInstance(type) as BaseDay)
+            .Select(type => Activator.CreateInstance(type) as BaseDay)
             .ToList();
 
     [Benchmark]

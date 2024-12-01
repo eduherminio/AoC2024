@@ -13,7 +13,7 @@ public class All_Days_Individually_Benchmark : BaseDayBenchmark
     public static List<Type>? AllDays => Assembly.GetAssembly(typeof(Day_01))
             ?.GetTypes()
             ?.Where(type => typeof(BaseProblem).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
-            ?.ToList();
+            .ToList();
 
     [Benchmark]
     [ArgumentsSource(nameof(AllDays))]
