@@ -24,15 +24,16 @@ public class Day_01 : BaseDay
     public override ValueTask<string> Solve_2()
     {
         var result = 0;
+        var l1Index = 0;
         var l2Index = 0;
 
-        for (int i = 0; i < _input.L1.Count; ++i)
+        while (l1Index != _input.L1.Count - 1)
         {
-            var n = _input.L1[i];
+            var n = _input.L1[l1Index];
             var l1Counter = 1;
             var l2Counter = 0;
 
-            for (int j = i + 1; j < _input.L1.Count; ++j)
+            for (int j = l1Index + 1; j < _input.L1.Count; ++j)
             {
                 if (n == _input.L1[j])
                 {
@@ -40,7 +41,7 @@ public class Day_01 : BaseDay
                 }
                 else
                 {
-                    i = j - 1;  // -1 due to the auto-loop increment
+                    l1Index = j;
                     break;
                 }
             }
