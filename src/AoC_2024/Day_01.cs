@@ -11,6 +11,12 @@ public class Day_01 : BaseDay
 
     public override ValueTask<string> Solve_1()
     {
+        // LINQ:
+        // var result = _input.L1
+        //    .Zip(_input.L2, (l1, l2) => Math.Abs(l1 - l2))
+        //    .Sum()
+        //    .ToString();
+
         var result = 0;
 
         for (int i = 0; i < _input.L1.Count; ++i)

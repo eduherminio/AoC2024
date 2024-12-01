@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <NoWarn>S101</NoWarn>
+    <NoWarn>$(NoWarn),S101,S125</NoWarn>
   </PropertyGroup>
 
 </Project>
