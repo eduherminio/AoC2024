@@ -20,15 +20,21 @@ public class Day_02 : BaseDay
 
     public override ValueTask<string> Solve_2()
     {
-        var result = CheckSafety(SubReport);
+        var result = Solve_2_NoCopy();
 
         return new(result.ToString());
+    }
 
-        static bool SubReport(int[] report)
+    private int Solve_2_Original()
+    {
+        return CheckSafety(SubReport);
+
+        static bool SubReport(Span<int> report)
         {
             for (int n = 0; n < report.Length; ++n)
             {
-                var copy = report.ToList();
+                var copy = new List<int>(report.Length);
+                copy.AddRange(report);
                 copy.RemoveAt(n);
 
                 bool safe = true;
@@ -73,7 +79,89 @@ public class Day_02 : BaseDay
         }
     }
 
-    private int CheckSafety(Func<int[], bool> predicate)
+    private int Solve_2_NoCopy()
+    {
+        return CheckSafety(SubReport);
+
+        static bool SubReport(Span<int> report)
+        {
+            var oldNValue = report[0];
+            for (int n = 0; n < report.Length; ++n)
+            {
+                if (n > 0)
+                {
+                    report[n - 1] = oldNValue;
+                }
+                oldNValue = report[n];
+                report[n] = int.MinValue;
+
+                bool safe = true;
+                bool increasing = report[1] > report[0];
+
+                for (int i = 1; i < report.Length; ++i)
+                {
+                    var currentLevel = report[i];
+                    var previousLevel = report[i - 1];
+
+                    #region The price to pay for not removing the element
+
+                    if (currentLevel == int.MinValue)
+                    {
+                        continue;
+                    }
+
+                    if (previousLevel == int.MinValue)
+                    {
+                        if (i == 2)
+                        {
+                            increasing = report[i + 1] > currentLevel;
+                        }
+                        else if (i == 1)
+                        {
+                            increasing = report[i + 1] > currentLevel;
+                            continue;
+                        }
+
+                        previousLevel = report[i - 2];
+                    }
+
+                    #endregion
+
+                    var delta = currentLevel - previousLevel;
+
+                    if (increasing)
+                    {
+                        if (delta > 0 && delta <= 3)
+                        {
+                            continue;
+                        }
+
+                        safe = false;
+                        break;
+                    }
+                    else
+                    {
+                        if (delta < 0 && delta >= -3)
+                        {
+                            continue;
+                        }
+
+                        safe = false;
+                        break;
+                    }
+                }
+
+                if (safe)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    private int CheckSafety(Func<Span<int>, bool> predicate)
     {
         int result = 0;
 
