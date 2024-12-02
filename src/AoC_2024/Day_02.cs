@@ -11,94 +11,16 @@ public class Day_02 : BaseDay
 
     public override ValueTask<string> Solve_1()
     {
-        var result = 0;
-
-        foreach (var report in _input)
-        {
-            bool safe = true;
-            bool increasing = report[1] - report[0] > 0;
-
-            for (int i = 1; i < report.Count; ++i)
-            {
-                var currentLevel = report[i];
-                var previousLevel = report[i - 1];
-
-                var delta = currentLevel - previousLevel;
-
-                if (increasing)
-                {
-                    if (delta > 0 && delta <= 3)
-                    {
-                        continue;
-                    }
-
-                    safe = false;
-                    break;
-                }
-                else
-                {
-                    if (delta < 0 && delta >= -3)
-                    {
-                        continue;
-                    }
-
-                    safe = false;
-                    break;
-                }
-            }
-
-            if (safe)
-            {
-                ++result;
-            }
-        }
+        var result = CheckSafety(static (_) => false);
 
         return new(result.ToString());
     }
 
     public override ValueTask<string> Solve_2()
     {
-        var result = 0;
+        var result = CheckSafety(SubReport);
 
-        foreach (var report in _input)
-        {
-            bool safe = true;
-            bool increasing = report[1] - report[0] > 0;
-
-            for (int i = 1; i < report.Count; ++i)
-            {
-                var currentLevel = report[i];
-                var previousLevel = report[i - 1];
-
-                var delta = currentLevel - previousLevel;
-
-                if (increasing)
-                {
-                    if (delta > 0 && delta <= 3)
-                    {
-                        continue;
-                    }
-
-                    safe = SubReport(report);
-                    break;
-                }
-                else
-                {
-                    if (delta < 0 && delta >= -3)
-                    {
-                        continue;
-                    }
-
-                    safe = SubReport(report);
-                    break;
-                }
-            }
-
-            if (safe)
-            {
-                ++result;
-            }
-        }
+        return new(result.ToString());
 
         static bool SubReport(List<int> report)
         {
@@ -108,7 +30,7 @@ public class Day_02 : BaseDay
                 copy.RemoveAt(n);
 
                 bool safe = true;
-                bool increasing = copy[1] - copy[0] > 0;
+                bool increasing = copy[1] > copy[0];
 
                 for (int i = 1; i < copy.Count; ++i)
                 {
@@ -147,8 +69,53 @@ public class Day_02 : BaseDay
 
             return false;
         }
+    }
 
-        return new(result.ToString());
+    private int CheckSafety(Func<List<int>, bool> predicate)
+    {
+        int result = 0;
+
+        foreach (var report in _input)
+        {
+            bool safe = true;
+            bool increasing = report[1] > report[0];
+
+            for (int i = 1; i < report.Count; ++i)
+            {
+                var currentLevel = report[i];
+                var previousLevel = report[i - 1];
+
+                var delta = currentLevel - previousLevel;
+
+                if (increasing)
+                {
+                    if (delta > 0 && delta <= 3)
+                    {
+                        continue;
+                    }
+
+                    safe = predicate(report);
+                    break;
+                }
+                else
+                {
+                    if (delta < 0 && delta >= -3)
+                    {
+                        continue;
+                    }
+
+                    safe = predicate(report);
+                    break;
+                }
+            }
+
+            if (safe)
+            {
+                ++result;
+            }
+        }
+
+        return result;
     }
 
     private IEnumerable<List<int>> ParseInput()
