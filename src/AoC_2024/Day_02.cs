@@ -1,12 +1,14 @@
-﻿namespace AoC_2024;
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace AoC_2024;
 
 public class Day_02 : BaseDay
 {
-    private readonly List<List<int>> _input;
+    private readonly int[][] _input;
 
     public Day_02()
     {
-        _input = ParseInput().ToList();
+        _input = ParseInput().ToArray();
     }
 
     public override ValueTask<string> Solve_1()
@@ -22,9 +24,9 @@ public class Day_02 : BaseDay
 
         return new(result.ToString());
 
-        static bool SubReport(List<int> report)
+        static bool SubReport(int[] report)
         {
-            for (int n = 0; n < report.Count; ++n)
+            for (int n = 0; n < report.Length; ++n)
             {
                 var copy = report.ToList();
                 copy.RemoveAt(n);
@@ -71,7 +73,7 @@ public class Day_02 : BaseDay
         }
     }
 
-    private int CheckSafety(Func<List<int>, bool> predicate)
+    private int CheckSafety(Func<int[], bool> predicate)
     {
         int result = 0;
 
@@ -80,7 +82,7 @@ public class Day_02 : BaseDay
             bool safe = true;
             bool increasing = report[1] > report[0];
 
-            for (int i = 1; i < report.Count; ++i)
+            for (int i = 1; i < report.Length; ++i)
             {
                 var currentLevel = report[i];
                 var previousLevel = report[i - 1];
@@ -118,7 +120,7 @@ public class Day_02 : BaseDay
         return result;
     }
 
-    private IEnumerable<List<int>> ParseInput()
+    private IEnumerable<int[]> ParseInput()
     {
         var file = new ParsedFile(InputFilePath);
 
@@ -126,7 +128,7 @@ public class Day_02 : BaseDay
         {
             var line = file.NextLine();
 
-            yield return line.ToList<int>();
+            yield return line.ToList<int>().ToArray();
         }
     }
 }
